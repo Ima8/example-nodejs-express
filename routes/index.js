@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var os = require('os');
 var ifaces = os.networkInterfaces();
+var config = require("../config.json")
 
 function format(seconds) {
   function pad(s) {
@@ -18,6 +19,7 @@ function format(seconds) {
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.status(200).json({
+    env: config.env,
     uptime: format(process.uptime()),
     networkInterfaces: ifaces
   })

@@ -6,3 +6,4 @@ npm install
 npm start
 ```
 
+### running on port: `3000`
