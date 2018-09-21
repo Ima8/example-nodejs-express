@@ -6,4 +6,8 @@ npm install
 npm start
 ```
 
+## Path to start program 
+```
+bin/www
+```
 ### running on port: `3000`

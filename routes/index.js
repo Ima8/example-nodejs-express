@@ -11,9 +11,9 @@ function format(seconds) {
   }
   const hours = Math.floor(seconds / (60 * 60));
   const minutes = Math.floor(seconds % (60 * 60) / 60);
-  const seconds = Math.floor(seconds % 60);
+  const s = Math.floor(seconds % 60);
 
-  return pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+  return pad(hours) + ':' + pad(minutes) + ':' + pad(s);
 }
 
 
