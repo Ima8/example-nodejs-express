@@ -1,3 +1,7 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+# build , test , push to docker hub without workflows
 version: 2
 jobs:
   build:
@@ -17,4 +21,22 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      - setup_remote_docker
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - run:
+          name: "Build docker image and push to docker hub"
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              cp Dockerfile.production Dockerfile
+              docker build -t ima8/example-nodejs-circle:latest .
+              docker build -t ima8/example-nodejs-circle:${CIRCLE_SHA1} .
+              docker push ima8/example-nodejs-circle:latest
+              docker push ima8/example-nodejs-circle:${CIRCLE_SHA1}
+            elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
+              cp Dockerfile.staging Dockerfile
+              docker build -t ima8/example-nodejs-circle-staging:latest .
+              docker push ima8/example-nodejs-circle-staging:latest
+            else
+              echo "This is ${CIRCLE_BRANCH}"
+            fi
       - run: echo Done
