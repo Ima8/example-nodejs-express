@@ -1,7 +1,7 @@
 # Javascript Node CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
+# build , test , push to docker hub , deploy without workflows
 version: 2
 jobs:
   build:
@@ -9,6 +9,38 @@ jobs:
       # specify the version you desire here
       - image: circleci/node:8.11.1-stretch
     working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+  test:
+    docker:
+      - image: circleci/node:8.11.1-stretch
+    working_directory: ~/repo  
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: npm test
+  ship:
+    docker:
+      - image: circleci/node:8.11.1-stretch
+    working_directory: ~/repo  
     steps:
       - checkout
       - restore_cache:
@@ -39,6 +71,12 @@ jobs:
             else
               echo "This is ${CIRCLE_BRANCH}"
             fi
+  deploy:
+    docker:
+      - image: circleci/node:8.11.1-stretch
+    working_directory: ~/repo  
+    steps:
+      - setup_remote_docker
       - run:
           name: "Call to rancher to deploy"
           command: |
@@ -66,18 +104,23 @@ jobs:
               echo "This is ${CIRCLE_BRANCH}"
             fi
       - run: echo Done
-  test:
-    docker:
-      - image: circleci/node:8.11.1-stretch
-    steps:
-      - checkout
-      # run tests!
-      - run: npm test
 workflows:
   version: 2
   build_test_ship_deploy:
     jobs:
-      - test
-      - build:
+      - build
+      - test:
           requires:
+            - build
+      - ship:
+          requires:
+            - build
             - test
+      - deploy:
+          type: approval
+          requires:
+            - build
+            - test
+            - ship
+
+
