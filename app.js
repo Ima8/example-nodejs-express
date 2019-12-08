@@ -1,11 +1,11 @@
-// var apm = require('elastic-apm-node').start({
-//   // Set required service name (allowed characters: a-z, A-Z, 0-9, -, _, and space)
-//   serviceName: 'main-api',
-//   // Use if APM Server requires a token
-//   secretToken: '',
-//   // Set custom APM Server URL (default: http://localhost:8200)
-//   serverUrl: 'http://apmna:8200'
-// })
+var apm = require('elastic-apm-node').start({
+  // Set required service name (allowed characters: a-z, A-Z, 0-9, -, _, and space)
+  serviceName: 'main-api',
+  // Use if APM Server requires a token
+  secretToken: '',
+  // Set custom APM Server URL (default: http://localhost:8200)
+  serverUrl: 'http://apmna:8200'
+})
 
 var express = require('express');
 var path = require('path');
