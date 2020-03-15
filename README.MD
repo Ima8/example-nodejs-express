@@ -6,6 +6,11 @@ npm install
 npm start
 ```
 
+### How to run the TEST
+```
+npm run test
+
+```
 ## Path to start program 
 ```
 bin/www
