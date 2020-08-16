@@ -11,7 +11,7 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
     "debug": "~2.6.0",
-    "elastic-apm-node": "^3.2.0",
+    "elastic-apm-node": "^1.14.5",
     "event-stream": "^4.0.1",
     "express": "^4.17.1",
     "jade": "~1.11.0",
