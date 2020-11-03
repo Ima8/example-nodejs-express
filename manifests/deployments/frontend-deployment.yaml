@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  selector:
+    matchLabels:
+      app: circleci-express
+      tier: frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: circleci-express
+        tier: frontend
+    spec:
+      containers:
+      - name: circleci-express-containers
+        image: ima8/example-nodejs-circle
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 3000
