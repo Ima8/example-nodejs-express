@@ -4,6 +4,6 @@ metadata:
   name: manifests
   namespace: fleet-local
 spec:
-  repo: https://github.com/rancher/fleet-examples/
+  repo: https://github.com/Ima8/example-nodejs-express
   paths:
-  - single-cluster/manifests
+  - manifests
