@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: frontend
 spec:
-  repo: "https://github.com/Ima8/example-nodejs-express"
   selector:
     matchLabels:
       app: circleci-express
